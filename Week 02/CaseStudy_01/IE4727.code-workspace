@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../trillium4"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "IE4727"
+	}
+}
