@@ -45,67 +45,68 @@ const FormValidationExample = () => {
     };
 
     return (
-        <>
-        <form onSubmit={handleSubmit} className="form-container">
-            <div className="form-group">
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder="username"
-                    required
-                />
+        <div className="form-container">
+            <h2>Register</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        placeholder="Enter your username"
+                    />
+                    {errors.username && <span className="error">{errors.username}</span>}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Enter your email"
+                    />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Enter your password"
+                    />
+                    {errors.password && <span className="error">{errors.password}</span>}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Confirm your password"
+                    />
+                    {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <div className="terms">
+                <p>
+                    By signing up, you agree to the {" "}
+                    <a href="#0">Terms of Service</a> {" "}
+                    and {" "}
+                    <a href="#0">Privacy Policy</a>.
+                </p>
             </div>
-            <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="example@gmail.com"
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="••••••"
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password:</label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="••••••"
-                />
-            </div>
-            <button type="submit">Register</button>
-        </form>
-        <div className="terms">
-            <p>
-                By signing up, you agree tp the {" "}
-                <a href="#0">Terms of Service</a> {" "}
-                and{" "}
-                <a href="#0">Privacy Policy</a>.
-            </p>
         </div>
-        </>
     );
 };
-
 export default FormValidationExample;
