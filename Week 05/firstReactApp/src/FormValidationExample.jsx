@@ -9,6 +9,8 @@ const FormValidationExample = () => {
         confirmPassword: ''
     });
 
+    const [errors, setErrors] = useState({})
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -19,11 +21,31 @@ const FormValidationExample = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
-        // Add form validation logic here
+        const validationErrors = {};
+        if (!formData.username.trim()) {
+            validationErrors.username = "Username is required";
+        }
+        if (!formData.email.trim()) {
+            validationErrors.email = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            validationErrors.email = "Email is not valid";
+        }
+        if (!formData.password.trim()) {
+            validationErrors.password = "Password is required";
+        } else if (formData.password.length < 6) {
+            validationErrors.password = "Password should be at least 6 characters";
+        }
+        if (formData.confirmPassword !== formData.password) {
+            validationErrors.confirmPassword = "Passwords do not match";
+        }
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            alert("Form submitted successfully");
+        }
     };
 
     return (
+        <>
         <form onSubmit={handleSubmit} className="form-container">
             <div className="form-group">
                 <label htmlFor="username">Username:</label>
@@ -34,6 +56,7 @@ const FormValidationExample = () => {
                     value={formData.username}
                     onChange={handleChange}
                     placeholder="username"
+                    required
                 />
             </div>
             <div className="form-group">
@@ -45,6 +68,7 @@ const FormValidationExample = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="example@gmail.com"
+                    required
                 />
             </div>
             <div className="form-group">
@@ -56,6 +80,7 @@ const FormValidationExample = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="••••••"
+                    required
                 />
             </div>
             <div className="form-group">
@@ -69,8 +94,17 @@ const FormValidationExample = () => {
                     placeholder="••••••"
                 />
             </div>
-            {/* <button type="submit">Submit</button> */}
+            <button type="submit">Register</button>
         </form>
+        <div className="terms">
+            <p>
+                By signing up, you agree tp the {" "}
+                <a href="#0">Terms of Service</a> {" "}
+                and{" "}
+                <a href="#0">Privacy Policy</a>.
+            </p>
+        </div>
+        </>
     );
 };
 
