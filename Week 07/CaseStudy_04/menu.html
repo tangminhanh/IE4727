@@ -5,6 +5,7 @@
         <title>JavaJam Coffee House</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="styles.css">
+        <script src="js/menuUpdate.js"></script> <!-- Link to the JavaScript file -->
     </head>
 
     <body>
@@ -25,29 +26,68 @@
             <div id="rightcolumn">
                 <div class="content">
                     <h2>Coffee at JavaJam</h2>
-                    <table border="0" id="centered">
-                        <tr id="table-row-color">
-                            <td headers="dish" id="table-leftcol">Just Java</td>
-                            <td headers="description" id="table-rightcol">
-                                Regular house blend, decaffeinated coffee, or flavour of the day.
-                                <br><strong>Endless Cup $22.00</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td headers="dish" id="table-leftcol">Cafe au Lait</td>
-                            <td headers="description" id="table-rightcol">
-                                House blended coffee infused into a smooth, steamed milk.
-                                <br><strong>Single $2.00 double $3.00</strong>
-                            </td>
-                        </tr>
-                        <tr id="table-row-color">
-                            <td headers="dish" id="table-leftcol">Iced Cappucino</td>
-                            <td headers="description" id="table-rightcol">
-                                Sweetened espresso blended withicy-cold milk and served in chilled glass.
-                                <br><strong>Single $4.75 Double $5.75</strong>
-                            </td>
-                        </tr>
-                    </table>
+                    <form id="orderForm">
+                        <table border="0" id="centered">
+                            <!-- Just Java -->
+                            <tr id="table-row-color">
+                                <td headers="dish" id="table-leftcol">Just Java</td>
+                                <td headers="description" id="table-rightcol">
+                                    Regular house blend, decaffeinated coffee, or flavour of the day.<br>
+                                    <strong>Endless Cup $2.00</strong>
+                                </td>
+                                <td><input type="number" id="Qty_JustJava" name="Qty_JustJava" value="0" min="0"></td>
+                                <td><input type="text" id="Subtotal_JustJava" readonly></td>
+                            </tr>
+
+                            <!-- Cafe au Lait -->
+                            <tr>
+                                <td headers="dish" id="table-leftcol">Cafe au Lait</td>
+                                <td headers="description" id="table-rightcol">
+                                    House blended coffee infused into a smooth, steamed milk.<br>
+                                    <strong>
+                                        <label>
+                                            <input type="radio" id="Qty_Cafe_Single" name="Qty_Cafe" value="2.00"> Single $2.00
+                                        </label>
+                                        <label>
+                                            <input type="radio" id="Qty_Cafe_Double" name="Qty_Cafe" value="3.00"> Double $3.00
+                                        </label>
+                                    </strong>
+                                </td>
+                                <!-- <td>
+                                    <input type="radio" id="Qty_Cafe_Single" name="Qty_Cafe" value="2.00"> Single
+                                    <input type="radio" id="Qty_Cafe_Double" name="Qty_Cafe" value="3.00"> Double
+                                </td> -->
+                                <td><input type="number" id="Qty_Cafe" value="0" min="0"></td>
+                                <td><input type="text" id="Subtotal_Cafe" readonly></td>
+                            </tr>
+
+                            <!-- Iced Cappuccino -->
+                            <tr id="table-row-color">
+                                <td headers="dish" id="table-leftcol">Iced Cappuccino</td>
+                                <td headers="description" id="table-rightcol">
+                                    Sweetened espresso blended with icy-cold milk and served in a chilled glass.<br>
+                                    <strong>
+                                        <label>
+                                            <input type="radio" id="Qty_Iced_Single" name="Qty_Iced" value="4.75"> Single $4.75
+                                        </label>
+                                        <label>
+                                            <input type="radio" id="Qty_Iced_Double" name="Qty_Iced" value="5.75"> Double $5.75
+                                        </label>
+                                    </strong>
+                                </td>
+                                <!-- <td>
+                                    <input type="radio" id="Qty_Iced_Single" name="Qty_Iced" value="4.75"> Single
+                                    <input type="radio" id="Qty_Iced_Double" name="Qty_Iced" value="5.75"> Double
+                                </td> -->
+                                <td><input type="number" id="Qty_Iced" value="0" min="0"></td>
+                                <td><input type="text" id="Subtotal_Iced" readonly></td>
+                            </tr>
+                        </table>
+
+                        <br>
+                        <strong>Total Price: $</strong><input type="text" id="Total_Price" readonly><br><br>
+                        <input id="clear-btn" type="reset" value="Clear">
+                    </form>
                 </div>
             </div>
             <footer>
