@@ -14,6 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const expContent = document.getElementById('myExp');
     const submitButton = document.getElementById('submitBtn');
 
+    // Function to disable/enable the submit button based on validity
+    function toggleSubmitButton() {
+        if (isValidName(nameContent.value) &&
+            isValidEmail(emailContent.value) &&
+            isValidStartDate(dateContent.value) &&
+            isValidExperience(expContent.value)) {
+            submitButton.disabled = false; // Enable submit button
+        } else {
+            submitButton.disabled = true; // Disable submit button
+        }
+    }
+
     // Validate Name on blur
     nameContent.addEventListener('blur', () => {
         if (nameContent.value.trim() === '') {
@@ -23,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             errorName.textContent = 'Enter characters and whitespaces only!';
         }
+        toggleSubmitButton();
     });
 
     // Validate Email on blur
@@ -34,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             errorEmail.textContent = 'Your email contains invalid symbols!';
         }
+        toggleSubmitButton();
     });
 
     // Validate Start Date on blur
@@ -43,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             errorDate.textContent = 'You cannot start before today!';
         }
+        toggleSubmitButton();
     });
 
     // Validate Experience on blur
@@ -52,7 +67,9 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             errorExp.textContent = '';
         }
+        toggleSubmitButton();
     });
+
 
     // Validate on form submit
     form.addEventListener('submit', (event) => {
@@ -63,40 +80,41 @@ document.addEventListener('DOMContentLoaded', function () {
         // Validate Name
         if (!isValidName(nameContent.value)) {
             valid = false;
-            if (nameContent.value.trim() === '') {
-                errorName.textContent = 'This field is compulsory!';
-            } else {
-                errorName.textContent = 'Enter characters and whitespaces only!';
-            }
+            // if (nameContent.value.trim() === '') {
+            //     errorName.textContent = 'This field is compulsory!';
+            // } else {
+            //     errorName.textContent = 'Enter characters and whitespaces only!';
+            // }
         }
 
         // Validate Email
         if (!isValidEmail(emailContent.value)) {
             valid = false;
-            if (emailContent.value.trim() === '') {
-                errorEmail.textContent = 'This field is compulsory!';
-            } else {
-                errorEmail.textContent = 'Your email contains invalid symbols!';
-            }
+            // if (emailContent.value.trim() === '') {
+            //     errorEmail.textContent = 'This field is compulsory!';
+            // } else {
+            //     errorEmail.textContent = 'Your email contains invalid symbols!';
+            // }
         }
 
         // Validate Start Date
         if (!isValidStartDate(dateContent.value)) {
             valid = false;
-            errorDate.textContent = 'You cannot start before today!';
+            // errorDate.textContent = 'You cannot start before today!';
         }
 
         // Validate Experience
         if (!isValidExperience(expContent.value)) {
             valid = false;
-            if (expContent.value.trim() === '') {
-                errorExp.textContent = 'This field is compulsory!';
-            }
+            // if (expContent.value.trim() === '') {
+            //     errorExp.textContent = 'This field is compulsory!';
+            // }
         }
 
         if (!valid) {
             errorForm.textContent = 'Fields contain invalid data! Please fix the errors.';
-        } else {
+        } 
+        else {
             errorForm.textContent = '';
             nameContent.value = nameContent.value.trim();
             emailContent.value = emailContent.value.trim();
@@ -106,6 +124,9 @@ document.addEventListener('DOMContentLoaded', function () {
             form.submit(); // Submit the form
         }
     });
+
+    // Disable submit button initially
+    toggleSubmitButton();
 
     // Validation functions
     function isValidName(value) {
