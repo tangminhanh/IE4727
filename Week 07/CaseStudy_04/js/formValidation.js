@@ -1,133 +1,136 @@
-// Error messages
-const errorName = document.getElementById('error-name')
-const errorEmail = document.getElementById('error-mail')
-const errorDate = document.getElementById('error-date')
-const errorExp = document.getElementById('error-exp')
-const errorForm = document.getElementById('error-form')
-//input field form
-const form = document.getElementById('jobForm')
-const nameContent = document.getElementById('myName');
-const emailContent = document.getElementById('myEmail');
-const dateContent = document.getElementById('startDate');
-const expContent = document.getElementById('myExp');
-const submitButton = document.getElementById('submitBtn');
+document.addEventListener('DOMContentLoaded', function () {
+    // Error messages
+    const errorName = document.getElementById('error-name');
+    const errorEmail = document.getElementById('error-mail');
+    const errorDate = document.getElementById('error-date');
+    const errorExp = document.getElementById('error-exp');
+    const errorForm = document.getElementById('error-form');
 
-nameContent.addEventListener('blur', (event) => {
-    if (nameContent.value === '') {
-        errorName.textContent = 'This field is compulsory!'
-    } else if (isValidName(nameContent.value)) {
-        errorName.textContent = ''
-    } else {
-        errorName.textContent = 'Enter characters and whitespaces only!'
+    // Input fields and form
+    const form = document.getElementById('jobForm');
+    const nameContent = document.getElementById('myName');
+    const emailContent = document.getElementById('myEmail');
+    const dateContent = document.getElementById('startDate');
+    const expContent = document.getElementById('myExp');
+
+    // Validate Name on blur
+    nameContent.addEventListener('blur', () => {
+        if (nameContent.value.trim() === '') {
+            errorName.textContent = 'This field is compulsory!';
+        } else if (isValidName(nameContent.value)) {
+            errorName.textContent = '';
+        } else {
+            errorName.textContent = 'Enter characters and whitespaces only!';
+        }
+    });
+
+    // Validate Email on blur
+    emailContent.addEventListener('blur', () => {
+        if (emailContent.value.trim() === '') {
+            errorEmail.textContent = 'This field is compulsory!';
+        } else if (isValidEmail(emailContent.value)) {
+            errorEmail.textContent = '';
+        } else {
+            errorEmail.textContent = 'Your email contains invalid symbols!';
+        }
+    });
+
+    // Validate Start Date on blur
+    dateContent.addEventListener('blur', () => {
+        if (isValidStartDate(dateContent.value)) {
+            errorDate.textContent = '';
+        } else {
+            errorDate.textContent = 'You cannot start before today!';
+        }
+    });
+
+    // Validate Experience on blur
+    expContent.addEventListener('blur', () => {
+        if (expContent.value.trim() === '') {
+            errorExp.textContent = 'This field is compulsory!';
+        } else {
+            errorExp.textContent = '';
+        }
+    });
+
+    // Validate on form submit
+    form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent form submission
+
+        let valid = true;
+
+        // Validate Name
+        if (!isValidName(nameContent.value)) {
+            valid = false;
+            if (nameContent.value.trim() === '') {
+                errorName.textContent = 'This field is compulsory!';
+            } else {
+                errorName.textContent = 'Enter characters and whitespaces only!';
+            }
+        }
+
+        // Validate Email
+        if (!isValidEmail(emailContent.value)) {
+            valid = false;
+            if (emailContent.value.trim() === '') {
+                errorEmail.textContent = 'This field is compulsory!';
+            } else {
+                errorEmail.textContent = 'Your email contains invalid symbols!';
+            }
+        }
+
+        // Validate Start Date
+        if (!isValidStartDate(dateContent.value)) {
+            valid = false;
+            errorDate.textContent = 'You cannot start before today!';
+        }
+
+        // Validate Experience
+        if (!isValidExperience(expContent.value)) {
+            valid = false;
+            if (expContent.value.trim() === '') {
+                errorExp.textContent = 'This field is compulsory!';
+            } else {
+                errorExp.textContent = 'You need to indicate your work experience!';
+            }
+        }
+
+        if (!valid) {
+            errorForm.textContent = 'Fields contain invalid data!';
+        } else {
+            errorForm.textContent = '';
+            // Trim input values
+            nameContent.value = nameContent.value.trim();
+            emailContent.value = emailContent.value.trim();
+            expContent.value = expContent.value.trim();
+            form.submit(); // Submit the form
+        }
+    });
+
+    // Validation functions
+    function isValidName(value) {
+        value = value.trim();
+        const rule = /^[a-zA-Z ]+$/;
+        return rule.test(value);
     }
-})
 
-/**
- * Listens to the <email> field and show error message on blur, if applicable.
- */
-emailContent.addEventListener('blur', (event) => {
-    if (emailContent.value === '') {
-        errorEmail.textContent = 'This field is compulsory!'
-    } else if (isValidEmail(emailContent.value)) {
-        errorEmail.textContent = ''
-    } else {
-        errorEmail.textContent = 'Your email contains invalid symbols!'
+    function isValidEmail(value) {
+        value = value.trim();
+        const rule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return rule.test(value);
     }
-})
 
-/**
- * Listens to the <date> field and show error message on blur, if applicable.
- */
-dateContent.addEventListener('blur', (event) => {
-    if (isValidStartDate(dateContent.value)) {
-        errorDate.textContent = ''
-    } else {
-        errorDate.textContent = 'You cannot start before today!'
+    function isValidStartDate(value) {
+        if (value !== '') {
+            const inputDate = new Date(value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Zero out the time portion
+            return inputDate > today;
+        }
+        return true;
     }
-})
 
-/**
- * Listens to the <experience> field and show error message on blur, if
- * applicable.
- */
-expContent.addEventListener('blur', (event) => {
-    if (expContent.value === '') {
-        errorExp.textContent = 'This field is compulsory!'
-    } else if (isValidExperience(expContent.value)) {
-        errorExp.textContent = ''
-    } else {
-        errorExp.textContent = 'You need to indicate your work experience!'
+    function isValidExperience(value) {
+        return value.trim().length > 0;
     }
-})
-
-/**
- * Validate everything before submission just in case prof asks
- */
-submitButton.addEventListener('click', (event) => {
-    event.preventDefault()
-
-    if (!isValidName(nameContent.value) ||
-        !isValidEmail(emailContent.value) ||
-        !isValidStartDate(dateContent.value) ||
-        !isValidExperience(expContent.value)) {
-        errorForm.textContent = 'Fields contain invalid data!'
-    } else {
-        nameContent.value = nameContent.value.trim()
-        emailContent.value = emailContent.value.trim()
-        expContent.value = expContent.value.trim()
-        form.submit()
-    }
-})
-
-// // Clear error messages
-// function clearErrors() {
-//     errorName.textContent = '';
-//     errorEmail.textContent = '';
-//     errorDate.textContent = '';
-//     errorExp.textContent = '';
-// }
-
-// Validation functions
-function isValidName(value) {
-    const rule = /^[a-zA-Z ]+$/
-    value.trim()
-    return (rule.test(value))
-}
-
-function isValidEmail(value) {
-    const rule = /^[\w][\w.-]*@([\w][\w-]*\.){1,3}[a-zA-Z]{2,3}$/
-    value.trim()
-    return (rule.test(value))
-}
-
-function isValidStartDate(value) {
-    if (value !== '') {
-        const date = Date.parse(value)
-        const today = new Date()
-        return (date > today)
-    } else {
-        return true
-    }
-}
-
-function isValidExperience(value) {
-    return value.length > 0;
-}
-
-
-
-// Main form validation
-// function formCheck() {
-//     var nameContent = document.getElementById('myName');
-//     var emailContent = document.getElementById('myEmail');
-//     var dateContent = document.getElementById('startDate');
-//     var expContent = document.getElementById('myExp');
-
-//     if (!chkName({ currentTarget: nameContent }) ||
-//         !chkEmail({ currentTarget: emailContent }) ||
-//         !chkDate({ currentTarget: dateContent }) ||
-//         !chkExp({ currentTarget: expContent })) {
-//         return false;
-//     }
-//     return true;
-// }
+});
