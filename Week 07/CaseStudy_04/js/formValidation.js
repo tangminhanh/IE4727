@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const emailContent = document.getElementById('myEmail');
     const dateContent = document.getElementById('startDate');
     const expContent = document.getElementById('myExp');
+    const submitButton = document.getElementById('submitBtn');
 
     // Validate Name on blur
     nameContent.addEventListener('blur', () => {
@@ -55,9 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Validate on form submit
     form.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault(); // Prevent form submission initially
 
-        let valid = true;
+        let valid = true; // Assume the form is valid
 
         // Validate Name
         if (!isValidName(nameContent.value)) {
@@ -90,19 +91,18 @@ document.addEventListener('DOMContentLoaded', function () {
             valid = false;
             if (expContent.value.trim() === '') {
                 errorExp.textContent = 'This field is compulsory!';
-            } else {
-                errorExp.textContent = 'You need to indicate your work experience!';
             }
         }
 
         if (!valid) {
-            errorForm.textContent = 'Fields contain invalid data!';
+            errorForm.textContent = 'Fields contain invalid data! Please fix the errors.';
         } else {
             errorForm.textContent = '';
-            // Trim input values
             nameContent.value = nameContent.value.trim();
             emailContent.value = emailContent.value.trim();
             expContent.value = expContent.value.trim();
+
+            alert('Form submitted successfully'); // Display success message
             form.submit(); // Submit the form
         }
     });
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
             today.setHours(0, 0, 0, 0); // Zero out the time portion
             return inputDate > today;
         }
-        return true;
+        return false; // Invalid if the date is empty
     }
 
     function isValidExperience(value) {
