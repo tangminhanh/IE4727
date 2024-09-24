@@ -5,7 +5,7 @@
         <title>JavaJam Coffee House</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="styles.css">
-        <script src="js/formValidation.js"></script> <!-- Link to your form validation JavaScript -->
+        <script src="js/formValidation.js" defer></script> <!-- Link to your form validation JavaScript -->
     </head>
 
     <body>
@@ -28,7 +28,7 @@
                     <h2>Jobs at JavaJam</h2>
                     <p>Want to work at JavaJam? Fill out the form below to start your application. Required fields are
                         marked with an asterisk *</p>
-                    <form method="post" action="show_post.php" name="jobForm"">
+                    <form method="post" action="show_post.php" name="jobForm" novalidate>
                         <table border="0">
                             <tr>
                                 <td id="form-label"><label for="myName">*Name:</label></td>
