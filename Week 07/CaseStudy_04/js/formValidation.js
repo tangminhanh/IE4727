@@ -1,75 +1,157 @@
-// Validate Name
-function chkName(event) {
-    var myName = event.currentTarget;
-    var pos = myName.value.search(/^[A-Za-z ]+$/);
+document.addEventListener('DOMContentLoaded', function () {
+    // Error messages
+    const errorName = document.getElementById('error-name');
+    const errorEmail = document.getElementById('error-mail');
+    const errorDate = document.getElementById('error-date');
+    const errorExp = document.getElementById('error-exp');
+    const errorForm = document.getElementById('error-form');
 
-    if (pos !== 0) {
-        alert("The name you entered (" + myName.value +
-            ") is not in the correct form. \n" +
-            "Name should contain alphabet characters and spaces only.");
-        myName.focus();
-        myName.select();
-        return false;
+    // Input fields and form
+    const form = document.getElementById('jobForm');
+    const nameContent = document.getElementById('myName');
+    const emailContent = document.getElementById('myEmail');
+    const dateContent = document.getElementById('startDate');
+    const expContent = document.getElementById('myExp');
+    const submitButton = document.getElementById('submitBtn');
+
+    // Function to disable/enable the submit button based on validity
+    function toggleSubmitButton() {
+        if (isValidName(nameContent.value) &&
+            isValidEmail(emailContent.value) &&
+            isValidStartDate(dateContent.value) &&
+            isValidExperience(expContent.value)) {
+            submitButton.disabled = false; // Enable submit button
+        } else {
+            submitButton.disabled = true; // Disable submit button
+        }
     }
-    return true;
-}
 
-// Validate Email
-function chkEmail(event) {
-    var myEmail = event.currentTarget;
-    var pos = myEmail.value.search(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    // Validate Name on blur
+    nameContent.addEventListener('blur', () => {
+        if (nameContent.value.trim() === '') {
+            errorName.textContent = 'This field is compulsory!';
+        } else if (isValidName(nameContent.value)) {
+            errorName.textContent = '';
+        } else {
+            errorName.textContent = 'Enter characters and whitespaces only!';
+        }
+        toggleSubmitButton();
+    });
 
-    if (pos !== 0) {
-        alert("The email you entered (" + myEmail.value + ") is not in the correct form.");
-        myEmail.focus();
-        myEmail.select();
-        return false;
+    // Validate Email on blur
+    emailContent.addEventListener('blur', () => {
+        if (emailContent.value.trim() === '') {
+            errorEmail.textContent = 'This field is compulsory!';
+        } else if (isValidEmail(emailContent.value)) {
+            errorEmail.textContent = '';
+        } else {
+            errorEmail.textContent = 'Your email contains invalid symbols!';
+        }
+        toggleSubmitButton();
+    });
+
+    // Validate Start Date on blur
+    dateContent.addEventListener('blur', () => {
+        if (isValidStartDate(dateContent.value)) {
+            errorDate.textContent = '';
+        } else {
+            errorDate.textContent = 'You cannot start before today!';
+        }
+        toggleSubmitButton();
+    });
+
+    // Validate Experience on blur
+    expContent.addEventListener('blur', () => {
+        if (expContent.value.trim() === '') {
+            errorExp.textContent = 'This field is compulsory!';
+        } else {
+            errorExp.textContent = '';
+        }
+        toggleSubmitButton();
+    });
+
+
+    // Validate on form submit
+    form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent form submission initially
+
+        let valid = true; // Assume the form is valid
+
+        // Validate Name
+        if (!isValidName(nameContent.value)) {
+            valid = false;
+            // if (nameContent.value.trim() === '') {
+            //     errorName.textContent = 'This field is compulsory!';
+            // } else {
+            //     errorName.textContent = 'Enter characters and whitespaces only!';
+            // }
+        }
+
+        // Validate Email
+        if (!isValidEmail(emailContent.value)) {
+            valid = false;
+            // if (emailContent.value.trim() === '') {
+            //     errorEmail.textContent = 'This field is compulsory!';
+            // } else {
+            //     errorEmail.textContent = 'Your email contains invalid symbols!';
+            // }
+        }
+
+        // Validate Start Date
+        if (!isValidStartDate(dateContent.value)) {
+            valid = false;
+            // errorDate.textContent = 'You cannot start before today!';
+        }
+
+        // Validate Experience
+        if (!isValidExperience(expContent.value)) {
+            valid = false;
+            // if (expContent.value.trim() === '') {
+            //     errorExp.textContent = 'This field is compulsory!';
+            // }
+        }
+
+        if (!valid) {
+            errorForm.textContent = 'Fields contain invalid data! Please fix the errors.';
+        } 
+        else {
+            errorForm.textContent = '';
+            nameContent.value = nameContent.value.trim();
+            emailContent.value = emailContent.value.trim();
+            expContent.value = expContent.value.trim();
+
+            alert('Form submitted successfully'); // Display success message
+            form.submit(); // Submit the form
+        }
+    });
+
+    // Disable submit button initially
+    toggleSubmitButton();
+
+    // Validation functions
+    function isValidName(value) {
+        value = value.trim();
+        const rule = /^[a-zA-Z ]+$/;
+        return rule.test(value);
     }
-    return true;
-}
 
-// Validate Start Date
-function chkDate(event) {
-    var startDate = event.currentTarget;
-    var now = new Date();
-
-    var dateFormatted = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-    var monthFormatted = (now.getMonth() + 1) < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
-    var nowDate = now.getFullYear() + "-" + monthFormatted + "-" + dateFormatted;
-
-    if (startDate.value <= nowDate) {
-        alert("The start date cannot be from today or the past.");
-        startDate.focus();
-        startDate.select();
-        return false;
+    function isValidEmail(value) {
+        value = value.trim();
+        const rule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return rule.test(value);
     }
-    return true;
-}
 
-// Validate Experience
-function chkExp(event) {
-    var myExp = event.currentTarget;
-    if (myExp.value.length === 0) {
-        alert("Experience cannot be empty.");
-        myExp.focus();
-        myExp.select();
-        return false;
+    function isValidStartDate(value) {
+        if (value !== '') {
+            const inputDate = new Date(value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Zero out the time portion
+            return inputDate > today;
+        }
+        return false; // Invalid if the date is empty
     }
-    return true;
-}
 
-// Main form validation
-function formCheck() {
-    var nameField = document.getElementById('myName');
-    var emailField = document.getElementById('myEmail');
-    var dateField = document.getElementById('startDate');
-    var expField = document.getElementById('myExp');
-
-    if (!chkName({ currentTarget: nameField }) ||
-        !chkEmail({ currentTarget: emailField }) ||
-        !chkDate({ currentTarget: dateField }) ||
-        !chkExp({ currentTarget: expField })) {
-        return false;
+    function isValidExperience(value) {
+        return value.trim().length > 0;
     }
-    return true;
-}
+});
